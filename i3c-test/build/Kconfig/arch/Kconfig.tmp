@@ -1,0 +1,11 @@
+# Load Zephyr Arch Kconfig descriptions.
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/rx/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/x86/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/xtensa/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/sparc/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/riscv/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/posix/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/mips/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/arm64/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/arm/Kconfig"
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/arch/arc/Kconfig"

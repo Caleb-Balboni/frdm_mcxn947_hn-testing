@@ -1,0 +1,30 @@
+/* Force printk/console onto FC4 LPUART so output goes out the dedicated
+ * UART pads we wired up (PT1_8 TX / PT1_9 RX), not whatever generic
+ * "default" console the build might pick up. */
+&flexcomm4_lpuart4 {
+	status = "okay";
+	current-speed = <115200>;
+};
+
+/ {
+	chosen {
+		zephyr,console = &flexcomm4_lpuart4;
+		zephyr,shell-uart = &flexcomm4_lpuart4;
+	};
+};
+
+/* I3C0 in I2C-compatibility mode. Pure-I2C bus (no real I3C devices),
+ * so keep timing tame across the board. */
+&i3c0 {
+	status = "okay";
+	pinctrl-0 = <&pinmux_i3c0>;
+	pinctrl-names = "default";
+
+	clk-divider = <12>;
+	clk-divider-slow = <1>;
+	clk-divider-tc = <1>;
+
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <400000>;
+	i3c-od-scl-hz = <400000>;
+};

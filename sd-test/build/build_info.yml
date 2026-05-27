@@ -1,0 +1,67 @@
+cmake:
+  application:
+    configuration-dir: '/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test'
+    source-dir: '/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test'
+  board:
+    name: 'frdm_mcxn947_hn'
+    path:
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn'
+    qualifiers: 'mcxn947/cpu0'
+    revision: ''
+  devicetree:
+    bindings-dirs:
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/core-dma-driver/dts/bindings'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/spi2c-driver/dts/bindings'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/tsys01-sensor/dts/bindings'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/bindings'
+    files:
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn/frdm_mcxn947_hn_mcxn947_cpu0.dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/app.overlay'
+    include-dirs:
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/ambiq/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/atmel/include'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/bouffalolab/include'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/bouffalolab/include/zephyr'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/gigadevice/include'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/microchip/include'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/microchip/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/nuvoton/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/nxp/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/stm32/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/hal/ti/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/core-dma-driver/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/spi2c-driver/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/modules/tsys01-sensor/dts'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/include'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/common'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/vendor'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/rx'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/x86'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/xtensa'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/sparc'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/riscv'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/posix'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/arm64'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/arm'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts/arc'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/dts'
+    user-files:
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/app.overlay'
+  kconfig:
+    files:
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn/frdm_mcxn947_hn_mcxn947_cpu0_defconfig'
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/prj.conf'
+    user-files:
+     - '/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/prj.conf'
+  toolchain:
+    name: 'zephyr'
+    path: '/home/bionet-caleb/zephyr-sdk-0.17.4'
+  zephyr:
+    version: '4.3.99'
+    zephyr-base: '/home/bionet-caleb/testing/zephyr-testing/zephyr'
+version: '0.1.0'
+west:
+  command: '/home/bionet-caleb/testing/zephyr-testing/myvenv/bin/west build -p always -b frdm_mcxn947_hn/mcxn947/cpu0 .'
+  topdir: '/home/bionet-caleb/testing/zephyr-testing'
+  version: '1.5.0'

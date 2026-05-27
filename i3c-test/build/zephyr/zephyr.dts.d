@@ -1,0 +1,33 @@
+empty_file.o: \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/misc/empty_file.c \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn/frdm_mcxn947_hn_mcxn947_cpu0.dts \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn/frdm_mcxn947_hn_mcxn947_cpu0.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/dts/arm/nxp/nxp_mcxn94x.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/dts/common/mem.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/dts/arm/armv8-m.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/dts/common/skeleton.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/dts/arm/nxp/nxp_mcxn94x_common.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/dts/arm/nxp/nxp_mcxnx4x_common.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/dts/common/freq.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/clock/mcux_lpc_syscon_clock.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/reset/nxp_syscon_reset_common.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/gpio/gpio.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/memory-attr/memory-attr-arm.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_macro.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_internal.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_loops.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_listify.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_internal_is_eq.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_internal_util_inc.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_internal_util_dec.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/sys/util_internal_util_x2.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/memory-attr/memory-attr.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn/frdm_mcxn947_hn.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn/frdm_mcxn947_hn-pinctrl.dtsi \
+ /home/bionet-caleb/testing/zephyr-testing/modules/hal/nxp/dts/nxp/mcx/MCXN947VDF-pinctrl.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/i2c/i2c.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/gpio/arduino-header-r3.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/gpio/dvp-20pin-connector.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/gpio/frdm_mcxn947_hn_gpio_header.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/include/zephyr/dt-bindings/input/input-event-codes.h \
+ /home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/i3c-test/app.overlay

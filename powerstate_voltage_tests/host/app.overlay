@@ -1,0 +1,20 @@
+
+/ {
+	buttons {
+		compatible = "gpio-keys";
+		wakeup_pin: wakeup_pin {
+			gpios = <&gpio0 19 GPIO_ACTIVE_HIGH>;
+		};
+		advance_pin: advance_pin {
+			gpios = <&gpio3 18 GPIO_ACTIVE_LOW>;
+		};
+	};
+};
+
+&gpio3 {
+	status = "okay";
+};
+
+&portd {
+	status = "okay";
+};

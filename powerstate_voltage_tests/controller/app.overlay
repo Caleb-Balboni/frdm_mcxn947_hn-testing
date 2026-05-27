@@ -1,0 +1,19 @@
+/* Controller side (frdm_mcxn947 eval board). Uses i3c1 in I2C-compat mode
+ * to read the INA745 on the dev board's i3c0 bus. Wire eval PIO1_16 (SDA) /
+ * PIO1_17 (SCL) to dev board PIO0_20 / PIO0_21, plus a common ground.
+ * Pull-ups are required somewhere on the bus -- usually the INA745 module
+ * provides them. */
+&i3c1 {
+	status = "okay";
+	pinctrl-0 = <&pinmux_i3c1>;
+	pinctrl-names = "default";
+
+	clk-divider = <12>;
+	clk-divider-slow = <1>;
+	clk-divider-tc = <1>;
+
+	/* drop to 100000 here if cross-board wiring is long / noisy */
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <400000>;
+	i3c-od-scl-hz = <400000>;
+};

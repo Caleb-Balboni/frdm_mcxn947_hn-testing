@@ -1,0 +1,42 @@
+# Available runners configured by board.cmake.
+runners:
+- linkserver
+- jlink
+- pyocd
+
+# Default flash runner if --runner is not given.
+flash-runner: linkserver
+
+# Default debug runner if --runner is not given.
+debug-runner: linkserver
+
+# Common runner configuration values.
+config:
+  board_dir: /home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn
+  # Build outputs:
+  elf_file: zephyr.elf
+  bin_file: zephyr.bin
+  # Host tools:
+  gdb: /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb
+  openocd: /home/bionet-caleb/zephyr-sdk-0.17.4/sysroots/x86_64-pokysdk-linux/usr/bin/openocd
+  openocd_search:
+    - /home/bionet-caleb/zephyr-sdk-0.17.4/sysroots/x86_64-pokysdk-linux/usr/share/openocd/scripts
+
+# Runner specific arguments
+args:
+  linkserver:
+    - --dt-flash=y
+    - --device=MCXN947:FRDM-MCXN947
+    - --core=cm33_core0
+    - --override=/device/memory/1/flash-driver=MCXN9xx_S.cfx
+    - --override=/device/memory/1/location=0x10000000
+    - --override=/device/memory/-={"location":"0x30000000",                               "size":"0x00060000","type":"RAM"}
+    - --override=/device/memory/-={"location":"0x30060000",                               "size":"0x00008000","type":"RAM"}
+    - --override=/device/memory/-={"location":"0x50000000",                               "size":"0x00140000","type":"RAM"}
+  jlink:
+    - --dt-flash=y
+    - --device=MCXN947_M33_0
+    - --reset-after-load
+  pyocd:
+    - --dt-flash=y
+    - --target=mcxn947

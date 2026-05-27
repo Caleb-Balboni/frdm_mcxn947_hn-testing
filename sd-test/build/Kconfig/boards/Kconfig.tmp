@@ -1,0 +1,2 @@
+# Load Zephyr board Kconfig descriptions.
+osource "/home/bionet-caleb/testing/zephyr-testing/zephyr/boards/nxp/frdm_mcxn947_hn/Kconfig"

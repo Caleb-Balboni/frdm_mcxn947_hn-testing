@@ -1,0 +1,5 @@
+west:
+  command: /home/bionet-caleb/testing/zephyr-testing/myvenv/bin/west build -p always
+    -b frdm_mcxn947_hn/mcxn947/cpu0 .
+  topdir: /home/bionet-caleb/testing/zephyr-testing
+  version: 1.5.0

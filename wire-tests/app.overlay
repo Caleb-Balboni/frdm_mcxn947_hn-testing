@@ -1,0 +1,24 @@
+#include <zephyr/dt-bindings/gpio/frdm_mcxn947_hn_gpio_header.h>
+
+&flexcomm4_lpuart4 {
+	status = "okay";
+	current-speed = <115200>;
+};
+
+/* FC1 LPSPI pinmux is defined in the frdm_mcxn947_hn board pinctrl:
+ * P0=PT0_24, P1=PT0_25, P2=PT0_22, P3=PT0_23. */
+&flexcomm1_lpspi1 {
+	status = "okay";
+	spi_test_dev: spi-test-dev@0 {
+		compatible = "vnd,spi-device";
+		reg = <0>;
+		spi-max-frequency = <100000>;
+	};
+};
+
+/ {
+	zephyr,user {
+		sirq-gpios = <&hydronet_gpio_header HN_GPIO_HEADER_4 GPIO_ACTIVE_HIGH>;
+		srdy-gpios = <&hydronet_gpio_header HN_GPIO_HEADER_6 GPIO_ACTIVE_HIGH>;
+	};
+};

@@ -1,0 +1,164 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineSystem.cmake:228 (message)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/kernel.cmake:129 (project)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/zephyr_default.cmake:138 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    message: |
+      The target system is: Generic - 4.3.99 - arm
+      The host system is: Linux - 6.17.0-23-generic - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/kernel.cmake:129 (project)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/zephyr_default.cmake:138 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/../../../../arm-zephyr-eabi/bin/ld: /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/../../../../arm-zephyr-eabi/lib/libc.a(lib_a-exit.o): in function `exit':
+      exit.c:(.text.exit+0x34): undefined reference to `_exit'
+      collect2: error: ld returned 1 exit status
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/kernel.cmake:129 (project)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/zephyr_default.cmake:138 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is GNU, found in:
+        /home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/build/CMakeFiles/3.28.3/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/kernel.cmake:129 (project)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/zephyr_default.cmake:138 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-g++ 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/../../../../arm-zephyr-eabi/bin/ld: /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/../../../../arm-zephyr-eabi/lib/libc.a(lib_a-exit.o): in function `exit':
+      exit.c:(.text.exit+0x34): undefined reference to `_exit'
+      collect2: error: ld returned 1 exit status
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/kernel.cmake:129 (project)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/zephyr_default.cmake:138 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-g++ 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification is GNU, found in:
+        /home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/build/CMakeFiles/3.28.3/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:1131 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineASMCompiler.cmake:131 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/kernel.cmake:135 (enable_language)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/zephyr_default.cmake:138 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)"
+      - "CMakeLists.txt:2 (find_package)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" matched "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      arm-zephyr-eabi-gcc (Zephyr SDK 0.17.4) 12.2.0
+      Copyright (C) 2022 Free Software Foundation, Inc.
+      This is free software; see the source for copying conditions.  There is NO
+      warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.28/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/extensions.cmake:2335 (check_c_compiler_flag)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/extensions.cmake:1198 (check_compiler_flag)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/extensions.cmake:2374 (zephyr_check_compiler_flag)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/extensions.cmake:2350 (target_cc_option_fallback)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules/extensions.cmake:155 (target_cc_option)"
+      - "/home/bionet-caleb/testing/zephyr-testing/zephyr/CMakeLists.txt:665 (zephyr_cc_option)"
+    directories:
+      source: "/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/build/CMakeFiles/CMakeScratch/TryCompile-gkqdeL"
+      binary: "/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/build/CMakeFiles/CMakeScratch/TryCompile-gkqdeL"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/bionet-caleb/testing/zephyr-testing/zephyr/cmake/modules"
+    buildResult:
+      variable: "check_fmacro_prefix_map__home_bionet_caleb_testing_zephyr_testing_zephyr_my_projects_zephyr_frdm_mcxn947_hn_sd_test_CMAKE_SOURCE_DIR_C__nostartfiles__nostdlib__isystem___home_bionet_caleb_zephyr_sdk_0_17_4_arm_zephyr_eabi_bin____lib_gcc_arm_zephyr_eabi_12_2_0_include___isystem___home_bionet_caleb_zephyr_sdk_0_17_4_arm_zephyr_eabi_bin____lib_gcc_arm_zephyr_eabi_12_2_0_include_fixed___Wl___unresolved_symbols_ignore_in_object_files__Wl___entry_0__fuse_ld_bfd"
+      cached: true
+      stdout: |
+        Change Dir: '/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/build/CMakeFiles/CMakeScratch/TryCompile-gkqdeL'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_75b37
+        [1/2] /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc -Dcheck_fmacro_prefix_map__home_bionet_caleb_testing_zephyr_testing_zephyr_my_projects_zephyr_frdm_mcxn947_hn_sd_test_CMAKE_SOURCE_DIR_C__nostartfiles__nostdlib__isystem___home_bionet_caleb_zephyr_sdk_0_17_4_arm_zephyr_eabi_bin____lib_gcc_arm_zephyr_eabi_12_2_0_include___isystem___home_bionet_caleb_zephyr_sdk_0_17_4_arm_zephyr_eabi_bin____lib_gcc_arm_zephyr_eabi_12_2_0_include_fixed___Wl___unresolved_symbols_ignore_in_object_files__Wl___entry_0__fuse_ld_bfd  -nostartfiles -nostdlib -isystem "/home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/include" -isystem "/home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/include-fixed" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd   -fmacro-prefix-map=/home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test=CMAKE_SOURCE_DIR -o CMakeFiles/cmTC_75b37.dir/src.c.obj -c /home/bionet-caleb/testing/zephyr-testing/zephyr/my-projects/zephyr-frdm-mcxn947-hn/sd-test/build/CMakeFiles/CMakeScratch/TryCompile-gkqdeL/src.c
+        [2/2] : && /home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc -nostartfiles -nostdlib -isystem "/home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/include" -isystem "/home/bionet-caleb/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/../lib/gcc/arm-zephyr-eabi/12.2.0/include-fixed" -Wl,--unresolved-symbols=ignore-in-object-files -Wl,--entry=0 -fuse-ld=bfd  CMakeFiles/cmTC_75b37.dir/src.c.obj -o cmTC_75b37   && :
+        
+      exitCode: 0
+...

@@ -1,0 +1,23 @@
+# WARNING. THIS FILE IS AUTO-GENERATED. DO NOT MODIFY!
+#
+# This file contains build system settings derived from your modules.
+#
+# Modules may be set via ZEPHYR_MODULES, ZEPHYR_EXTRA_MODULES,
+# and/or the west manifest file.
+#
+# See the Modules guide for more information.
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/adi"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/ambiq"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/atmel"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/bouffalolab"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/espressif"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/gigadevice"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/microchip"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/nuvoton"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/nxp"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/stm32"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/hal/ti"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/core-dma-driver"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/spi2c-driver"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/tsys01-sensor"
+"DTS_ROOT":"/home/bionet-caleb/testing/zephyr-testing/modules/mcxn-pm"

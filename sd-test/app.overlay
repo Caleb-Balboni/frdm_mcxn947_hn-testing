@@ -1,0 +1,23 @@
+&flexcomm4_lpuart4 {
+	status = "okay";
+	current-speed = <115200>;
+};
+
+/ {
+	chosen {
+		zephyr,console = &flexcomm4_lpuart4;
+		zephyr,shell-uart = &flexcomm4_lpuart4;
+	};
+};
+
+&usdhc0 {
+	status = "okay";
+	/* Try HS mode (50 MHz). With no-1-8-v set in the board file this is the
+	 * highest we can request. Drop to 25000000 if writes are flaky. */
+	max-bus-freq = <50000000>;
+	sdmmc {
+		compatible = "zephyr,sdmmc-disk";
+		disk-name = "SD";
+		status = "okay";
+	};
+};
