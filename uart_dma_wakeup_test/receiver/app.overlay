@@ -1,0 +1,10 @@
+
+&flexcomm5 {
+	status = "okay";
+};
+
+&flexcomm5_lpuart5 {
+	status = "okay";
+	dmas = <&edma0 1 79>, <&edma0 2 80>;
+	dma-names = "rx", "tx";
+};

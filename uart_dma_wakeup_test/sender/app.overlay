@@ -1,0 +1,9 @@
+/*
+ * flexcomm2_lpuart2 (the board "arduino_serial" header) is already enabled at
+ * the board level (frdm_mcxn947_hn_mcxn947_cpu0.dtsi) at 115200 baud with its
+ * pinmux set, so no node config is needed here. Kept as documentation of the
+ * UART this app drives.
+ */
+&flexcomm2_lpuart2 {
+	status = "okay";
+};

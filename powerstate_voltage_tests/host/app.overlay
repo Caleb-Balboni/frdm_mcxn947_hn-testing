@@ -11,6 +11,16 @@
 	};
 };
 
+&enet      { status = "disabled"; };
+&enet_mac  { status = "disabled"; };
+&enet_mdio { status = "disabled"; };
+&phy       { status = "disabled"; };
+&usb1      { status = "disabled"; };
+&usbphy1   { status = "disabled"; };
+&usdhc0    { status = "disabled"; };
+&flexspi   { status = "disabled"; };
+&w25q64jvssiq { status = "disabled"; };
+
 &gpio3 {
 	status = "okay";
 };

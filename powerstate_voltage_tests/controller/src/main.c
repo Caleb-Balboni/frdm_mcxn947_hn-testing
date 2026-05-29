@@ -17,14 +17,30 @@
 
 #define INA745_EXPECTED_MFG_ID 0x5449
 
-#define INA745_VBUS_LSB_UV    3125.0f
-#define INA745_DIETEMP_LSB_MC 125.0f
-#define INA745_CURRENT_LSB_UA 1200.0f
-#define INA745_POWER_LSB_UW   240.0f
+/* Fixed conversion factors (EZShunt integrated 800uohm shunt; no SHUNT_CAL/
+ * ADCRANGE on this part - these LSBs are fixed in silicon). */
+#define INA745_VBUS_LSB_UV    3125.0   /* 3.125 mV/LSB */
+#define INA745_DIETEMP_LSB_MC 125.0    /* 125 m degC/LSB */
+#define INA745_CURRENT_LSB_UA 1200.0   /* 1.2 mA/LSB */
+#define INA745_POWER_LSB_UW   240.0    /* 240 uW/LSB */
 
 #define INA745_CONFIG_RST_BIT (1u << 15)
 
-#define SAMPLES_PER_AVG       25000
+/* DIAG_ALRT (0x0B) flags */
+#define INA745_DIAG_CNVRF     (1u << 1)   /* conversion ready (set when done) */
+#define INA745_DIAG_MATHOF    (1u << 9)   /* arithmetic overflow -> I/P invalid */
+
+/* ADC_CONFIG (0x01) value tuned for maximum POWER accuracy:
+ *   MODE   = Fh  -> continuous temperature + current + bus voltage
+ *                   (only continuous mode that produces a POWER result)
+ *   VBUSCT = 7h  -> 4120 us bus-voltage conversion  (lowest bus noise)
+ *   VSENCT = 7h  -> 4120 us shunt conversion         (lowest current noise)
+ *   TCT    = 0h  ->   50 us temperature conversion   (temp unused for power,
+ *                                                      minimized so it doesn't
+ *                                                      bloat the cycle time)
+ *   AVG    = 7h  -> 1024x hardware averaging          (strongest noise lever)
+ * One averaged POWER update every (4120+4120+50)us * 1024 ~= 8.49 s. */
+#define INA745_ADC_CONFIG_VAL 0xFFC7u
 
 static const struct device *const bus = DEVICE_DT_GET(DT_NODELABEL(i3c1));
 
@@ -56,6 +72,8 @@ static int ina_write_u16(uint8_t addr, uint8_t reg, uint16_t val)
 	return i2c_write(bus, buf, sizeof(buf), addr);
 }
 
+static int ina_print_cfg(uint8_t addr);
+
 static int ina_init(uint8_t addr)
 {
 	uint16_t mfg = 0;
@@ -73,7 +91,27 @@ static int ina_init(uint8_t addr)
 		return -1;
 	}
 	k_msleep(2);
+
+	/* Apply the high-accuracy ADC configuration and read it back to confirm
+	 * the write took (a silently dropped write would leave the part at its
+	 * FB68h default and quietly cost accuracy). */
+	if (ina_write_u16(addr, INA745_ADC_CONFIG, INA745_ADC_CONFIG_VAL) < 0) {
+		printk("ina@0x%02X: adc_config write failed\n", addr);
+		return -1;
+	}
+	uint16_t adc_cfg = 0;
+	if (ina_read_u16(addr, INA745_ADC_CONFIG, &adc_cfg) < 0) {
+		printk("ina@0x%02X: adc_config readback failed\n", addr);
+		return -1;
+	}
+	if (adc_cfg != INA745_ADC_CONFIG_VAL) {
+		printk("ina@0x%02X: adc_config mismatch (got 0x%04X want 0x%04X)\n",
+		       addr, adc_cfg, INA745_ADC_CONFIG_VAL);
+		return -1;
+	}
+
 	printk("ina@0x%02X: ready (mfg=0x%04X)\n", addr, mfg);
+	ina_print_cfg(addr);
 	return 0;
 }
 
@@ -96,37 +134,82 @@ static int ina_sample_raw(uint8_t addr, int16_t *vbus_s, int16_t *curr_s,
 	return 0;
 }
 
-// Collect SAMPLES_PER_AVG readings from the INA745 at addr, then print the
-// mean of each channel. Failed reads are skipped; if every read fails the
-// function prints a "no response" line and returns < 0.
-static int ina_sample_avg(uint8_t addr, uint32_t ts_ms)
-{
-	double v_sum = 0.0, a_sum = 0.0, w_sum = 0.0, t_sum = 0.0;
-	uint32_t ok = 0;
+/* Conversion-time field codes 0h..7h -> microseconds (shared by VBUSCT,
+ * VSENCT, TCT) and AVG field codes 0h..7h -> averaging count. */
+static const uint16_t ina_conv_time_us[8] = {
+	50, 84, 150, 280, 540, 1052, 2074, 4120,
+};
+static const uint16_t ina_avg_count[8] = {
+	1, 4, 16, 64, 128, 256, 512, 1024,
+};
 
-	for (uint32_t i = 0; i < SAMPLES_PER_AVG; i++) {
-		int16_t vbus_s, curr_s, temp_s;
-		uint32_t pwr_raw;
-		if (ina_sample_raw(addr, &vbus_s, &curr_s, &temp_s, &pwr_raw) < 0) {
-			continue;
-		}
-		v_sum += (vbus_s * INA745_VBUS_LSB_UV)    / 1000000.0;
-		a_sum += (curr_s * INA745_CURRENT_LSB_UA) / 1000000.0;
-		w_sum += (pwr_raw * INA745_POWER_LSB_UW)  / 1000000.0;
-		t_sum += (temp_s * INA745_DIETEMP_LSB_MC) / 1000.0;
-		ok++;
+static int ina_print_cfg(uint8_t addr)
+{
+	uint16_t cfg_reg = 0;
+	int rc = ina_read_u16(addr, INA745_ADC_CONFIG, &cfg_reg);
+	if (rc < 0) {
+		printk("ina@0x%02X: failed to read ADC_CONFIG\n", addr);
+		return rc;
 	}
 
-	if (ok == 0) {
-		printk("[%9u ms] 0x%02X  no response (0/%u samples)\n",
-		       ts_ms, addr, SAMPLES_PER_AVG);
+	uint8_t mode   = (cfg_reg >> 12) & 0xF;
+	uint8_t vbusct = (cfg_reg >> 9)  & 0x7;
+	uint8_t vsenct = (cfg_reg >> 6)  & 0x7;
+	uint8_t tct    = (cfg_reg >> 3)  & 0x7;
+	uint8_t avg    =  cfg_reg        & 0x7;
+
+	/* Per-conversion cycle covers whichever channels MODE enables; for the
+	 * accuracy-relevant current+bus path that is VBUSCT + VSENCT (+ TCT,
+	 * since the only continuous current+bus mode also runs temperature). */
+	uint32_t cycle_us = (uint32_t)ina_conv_time_us[vbusct] +
+			    ina_conv_time_us[vsenct] +
+			    ina_conv_time_us[tct];
+	uint32_t update_us = cycle_us * ina_avg_count[avg];
+
+	printk("ina@0x%02X: ADC_CONFIG=0x%04X MODE=0x%X VBUSCT=%uus VSENCT=%uus "
+	       "TCT=%uus AVG=%ux -> update ~%u.%03u s\n",
+	       addr, cfg_reg, mode,
+	       ina_conv_time_us[vbusct], ina_conv_time_us[vsenct],
+	       ina_conv_time_us[tct], ina_avg_count[avg],
+	       update_us / 1000000u, (update_us / 1000u) % 1000u);
+	return 0;
+}
+
+// Report one fresh, hardware-averaged sample if the device has completed a new
+// conversion since we last read it. The chip already averages 1024 conversions
+// internally, so the right thing is to consume each result exactly once rather
+// than re-reading the same latched value thousands of times (which adds no
+// noise reduction). Returns:
+//   0  printed a fresh sample
+//   1  no new conversion ready yet (nothing printed, not an error)
+//  <0  bus error
+static int ina_poll_report(uint8_t addr, uint32_t ts_ms)
+{
+	uint16_t diag = 0;
+	if (ina_read_u16(addr, INA745_DIAG_ALRT, &diag) < 0) {
+		return -1;
+	}
+	if (!(diag & INA745_DIAG_CNVRF)) {
+		return 1;   /* averaging window not finished yet */
+	}
+
+	int16_t vbus_s, curr_s, temp_s;
+	uint32_t pwr_raw;
+	if (ina_sample_raw(addr, &vbus_s, &curr_s, &temp_s, &pwr_raw) < 0) {
 		return -1;
 	}
 
-	double n = (double)ok;
-	printk("[%9u ms] 0x%02X  avg of %u/%u  V=%.4f V  I=%.4f A  P=%.4f W  T=%.2f C\n",
-	       ts_ms, addr, ok, SAMPLES_PER_AVG,
-	       v_sum / n, a_sum / n, w_sum / n, t_sum / n);
+	double v = (vbus_s * INA745_VBUS_LSB_UV)    / 1000000.0;
+	double a = (curr_s * INA745_CURRENT_LSB_UA) / 1000000.0;
+	double w = (pwr_raw * INA745_POWER_LSB_UW)  / 1000000.0;
+	double t = (temp_s * INA745_DIETEMP_LSB_MC) / 1000.0;
+
+	/* MATHOF means the internal current/power math overflowed -> those two
+	 * values are not trustworthy. Flag it rather than logging bad data. */
+	const char *flag = (diag & INA745_DIAG_MATHOF) ? "  [MATHOF: I/P INVALID]" : "";
+
+	printk("[%9u ms] 0x%02X  V=%.4f V  I=%.4f A  P=%.4f W  T=%.2f C%s\n",
+	       ts_ms, addr, v, a, w, t, flag);
 	return 0;
 }
 
@@ -151,17 +234,22 @@ int main(void)
 	while (1) {
 		uint32_t ts = k_uptime_get_32();
 		if (have0) {
-			if (ina_sample_avg(INA745_ADDR_0, ts) < 0) {
+			if (ina_poll_report(INA745_ADDR_0, ts) < 0) {
 				have0 = false;   // lost device; try to re-init next pass
 			}
 		} else {
 			have0 = (ina_init(INA745_ADDR_0) == 0);
 		}
 		if (have1) {
-			if (ina_sample_avg(INA745_ADDR_1, ts) < 0) {
+			if (ina_poll_report(INA745_ADDR_1, ts) < 0) {
 				have1 = false;
 			}
 		}
+
+		/* Both devices average for ~8.5 s per result, so polling fast buys
+		 * nothing. Sleep keeps the I2C bus and CPU idle between checks while
+		 * still catching each new conversion promptly. */
+		k_msleep(50);
 	}
 	return 0;
 }

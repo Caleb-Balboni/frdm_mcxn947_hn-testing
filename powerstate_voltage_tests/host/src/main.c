@@ -2,6 +2,7 @@
 #include <zephyr/devicetree.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/regulator.h>
 #include <cmsis_core.h>
 #include <fsl_clock.h>
 #include "mcxn-pm.h"
@@ -35,14 +36,16 @@ static void dump_post_wake(const char *tag)
 	       (iser0 >> GPIO3_IRQ0) & 1, (iser0 >> GPIO3_IRQ1) & 1);
 }
 
-// Two separate buttons:
-//   wakeup_pin   = P0_19 = WUU input 3 : ONLY used to wake the chip from sleep
-//   advance_pin  = P0_30              : plain Zephyr GPIO IRQ, used while the
-//                                        chip is active to advance to the next state
-// Decoupling the two roles keeps the WUU's post-wake state out of the advance path.
 static struct gpio_dt_spec wake_gpio    = GPIO_DT_SPEC_GET(DT_NODELABEL(wakeup_pin), gpios);
 static struct gpio_dt_spec advance_gpio = GPIO_DT_SPEC_GET(DT_NODELABEL(advance_pin), gpios);
 static const uint8_t wake_pin_num = 3;
+
+// regulators
+static const struct device* reg_fpd_3v3 = DEVICE_DT_GET(DT_NODELABEL(reg_fpd_3v3));
+static const struct device* reg_fpd_5v0 = DEVICE_DT_GET(DT_NODELABEL(reg_fpd_5v0));
+static const struct device* reg_comm_5v0 = DEVICE_DT_GET(DT_NODELABEL(reg_comm_5v0));
+static const struct device* reg_periph_5v0 = DEVICE_DT_GET(DT_NODELABEL(reg_periph_5v0));
+static const struct device* reg_ana_5v0 = DEVICE_DT_GET(DT_NODELABEL(reg_ana_5v0));
 
 #define DEBOUNCE_MS 150
 static int64_t last_wake_ms;
@@ -66,14 +69,10 @@ static const struct external_pin_cfg WAKE_PIN_CFG = {
 	.pm    = EXTERNAL_PIN_ALL_POWER_MODES,
 };
 
-// Poll the advance pin. Wire idles HIGH (pull-up); touching it to GND
-// drives it LOW = "pressed". Sample every 20 ms with a short debounce.
 static void await_press(const char *next_state)
 {
-	dump_post_wake("await_press");
 	printk(">>> ACTIVE -- touch ADVANCE wire to GND to enter %s\n", next_state);
 
-	// Wait until the pin reads low (wire on GND).
 	while (gpio_pin_get_raw(advance_gpio.port, advance_gpio.pin) == 1) {
 		printk("pin is inactive\n");
 		k_msleep(20);
@@ -86,17 +85,12 @@ static void await_press(const char *next_state)
 	}
 	printk("advance triggered (polled)\n");
 
-	// Wait for release (wire pulled away from GND).
 	while (gpio_pin_get_raw(advance_gpio.port, advance_gpio.pin) == 0) {
 		k_msleep(20);
 	}
 	k_msleep(50);
 }
 
-// Re-arm the WUU pin right before going to sleep. Per RM 24.3.2, the WUU
-// can be left "immediately disabled" after recovery from Power-Down-class
-// modes; rewriting PE/PDC/PMC and clearing the pin flag puts it back in a
-// known armed state.
 static void rearm_wuu(void)
 {
 	wuu_cfg_external_pin(wake_pin_num, (struct external_pin_cfg *)&WAKE_PIN_CFG);
@@ -104,13 +98,23 @@ static void rearm_wuu(void)
 
 int main(void)
 {
-	printk("\n========================================\n");
+	if (regulator_disable(reg_fpd_3v3)) {
+		printk("failed to disable reg fpd 3v3\n");
+	}
+	if (regulator_disable(reg_fpd_5v0)) {
+		printk("failed to disable reg fpd 5v0\n");
+	}
+	if (regulator_disable(reg_comm_5v0)) {
+		printk("failed to disable reg comm 5v0\n");
+	}
+	if (regulator_disable(reg_periph_5v0)) {
+		printk("failed to disable reg periph 5v0\n");
+	}
+	if (regulator_disable(reg_ana_5v0)) {
+		printk("failed to disable reg ana 5v0\n");
+	}
 	printk("  POWERSTATE_TEST host (frdm_mcxn947_hn)\n");
-	printk("========================================\n");
 
-	// SRS (System Reset Status, RM 38.7.1.8) records what caused the
-	// most recent reset. If the chip reboots mid-test, the bits here
-	// tell us why: LPACK (LP-mode peripheral didn't ack), WDOG, etc.
 	uint32_t srs  = *(volatile uint32_t *)0x40048080u;
 	uint32_t ssrs = *(volatile uint32_t *)0x40048088u;
 	printk("  boot: SRS=0x%08x SSRS=0x%08x\n", srs, ssrs);
@@ -120,8 +124,6 @@ int main(void)
 	if (srs & (1u << 14)) printk("  -> SW reset\n");
 	if (srs & (1u << 15)) printk("  -> LOCKUP reset\n");
 	if (srs & (1u << 0))  printk("  -> WAKEUP (cold reset wake from deep-power-down)\n");
-	// Clear the sticky status so future cycles only show new bits.
-	*(volatile uint32_t *)0x40048088u = ssrs;
 
 	if (!gpio_is_ready_dt(&wake_gpio) || !gpio_is_ready_dt(&advance_gpio)) {
 		printk("gpio pin(s) not ready\n");
@@ -133,7 +135,6 @@ int main(void)
 		return -1;
 	}
 
-	// WUU on wakeup_pin -- only role is to pull the chip out of cmc_*()
 	wuu_external_pin_enable_interrupt(1);
 	wuu_external_pin_attach_cb(wake_pin_num, wake_cb, NULL);
 	wuu_cfg_external_pin(wake_pin_num, (struct external_pin_cfg *)&WAKE_PIN_CFG);
@@ -165,8 +166,6 @@ int main(void)
 	printk(">>> woke from POWER DOWN\n");
 
 	// --- ACTIVE 4 --> DEEP POWER DOWN ---
-	// wake from DPD resets the whole chip; we won't return from this call.
-	// after the next press, main() will start over from the banner above.
 	await_press("DEEP POWER DOWN (chip will reset on wake)");
 	rearm_wuu();
 	printk(">>> entering DEEP POWER DOWN\n");
